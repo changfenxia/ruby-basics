@@ -1,18 +1,18 @@
 # Прямоугольный треугольник
 
 puts 'Введите длину первой стороны треугольника: '
-side_a = gets.chomp.to_f
+side_a = gets.to_f
 puts 'Введите длину второй стороны треугольника: '
-side_b = gets.chomp.to_f
+side_b = gets.to_f
 puts 'Введите длину третьей стороны треугольника: '
-side_c = gets.chomp.to_f
+side_c = gets.to_f
 
-sides = [side_a, side_b, side_c].sort
+a, b, h = [side_a, side_b, side_c].sort
 
-if side_a == side_b && side_c == side_a
+if a == b && b == h
   puts 'Треугольник равнобедренный и равносторонний, но не прямоугольный.'
-elsif sides[0]**2 + sides[1]**2 == sides[2]**2
-  if sides[0] == sides[1]
+elsif a**2 + b**2 == h**2
+  if a == b
     puts 'Треугольник прямоугольный и равнобедренный.'
   else
     puts 'Треугольник прямоугольный.'
