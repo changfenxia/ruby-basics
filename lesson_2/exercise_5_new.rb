@@ -10,18 +10,10 @@ puts 'Введите год: '
 year = gets.to_i
 
 months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-# 2 вариант - еще можно сделать через case - when, без добавления массива с месяцами
 
 if (year % 400).zero? || ((year % 4).zero? && !(year % 100).zero?)
   months[1] = 29
 end
 
-date_num = day
-
-if month > 1
-  (0..month - 2).each do |i|
-    date_num += months[i]
-  end
-end
-
+date_num = day + months.take(month - 1).sum
 puts date_num

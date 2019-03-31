@@ -7,12 +7,10 @@ fib2 = 1
 fib_array = [fib1, fib2]
 
 loop do
-  current = fib1 + fib2
-  break if current > 100
-
-  fib_array << current
-  fib1 = fib2
-  fib2 = current
+  fib1, fib2 = fib2, fib1 + fib2
+  break if fib2 > 100
+  
+  fib_array << fib2
 end
 
 puts fib_array
@@ -28,4 +26,4 @@ loop do
   fib_array2 << current
 end
 
-puts fib_array2
+# puts fib_array2
