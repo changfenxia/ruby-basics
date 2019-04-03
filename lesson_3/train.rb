@@ -17,17 +17,6 @@ class Train
     @type = type
     @number_of_carriages = number_of_carriages
     @current_speed = 0
-    @current_station = nil
-    @route = nil
-    @direction = 'straight'
-  end
-
-  def gather_speed(speed = 70)
-    @current_speed = speed
-  end
-
-  def stop
-    @current_speed = 0
   end
 
   def add_carriage
@@ -41,41 +30,85 @@ class Train
   def assign_route(route)
     @route = route
     @current_station = route.starting_station
+    @direction = :straight
   end
 
-  def move(speed = 70)
-    if final_point?
-      puts "Поезд уже на конечной!"
-      return
+  def move_one_station_straight
+    @direction = :straight
+    move
+  end
+
+  def move_one_station_reverse
+    @direction = :reverse
+    move
+  end
+
+  def next_station
+    if going_straight?
+      @route.get_next_station_straight(@current_station)
+    else
+      @route.get_next_station_reverse(@current_station)
     end
-    gather_speed(speed) if @current_speed.zero?
+  end
+
+  def previous_station
+    if going_straight?
+      @route.get_previous_station_straight(@current_station)
+    else
+      @route.get_previous_station_reverse(@current_station)
+    end
+  end
+
+  private
+
+  def move
+    if route_end?
+      announce_final_station
+      return false
+    end
+
+    gather_speed if current_speed.zero?
     @current_station.send_train(self)
-    @current_station = @route.get_next_station(@current_station, @direction)
-    @current_station.receive_train(self)
-    puts "Прибыли на станцию #{@current_station.name}."
-    puts 'Конечная!' if final_point?
+    next_station.receive_train(self)
+    @current_station = next_station
     stop
+    announce_way_station
+    announce_final_station if route_end?
   end
 
-  def final_point?
-    if @direction == 'straight' && @current_station == @route.ending_station
-      true
-    elsif @direction == 'reverse' && @current_station == @route.starting_station
-      true
-    else
-      false
-    end
+  def route_end?
+    going_straight? ? straight_direction_route_end? : reverse_direction_route_end?
   end
 
-  def change_direction
-    if @direction == 'straight'
-      @direction = 'reverse'
-      puts "Поезд развернулся и пойдет в обратном направлении по маршруту
-            #{@route.ending_station.name} - #{@route.starting_station.name}"
-    else
-      @direction = 'straight'
-      puts "Поезд развернулся и пойдет по маршруту:
-            #{@route.starting_station.name} - #{@route.ending_station.name}"
-    end
+  def route_start?
+    going_straight? ? reverse_direction_route_end? : straight_direction_route_end?
+  end
+
+  def straight_direction_route_end?
+    true if @current_station == @route.ending_station
+  end
+
+  def reverse_direction_route_end?
+    true if @current_station == @route.starting_station
+  end
+
+  def going_straight?
+    @direction == :straight
+  end
+
+  def announce_way_station
+    puts "Прибыли на станцию #{@current_station.name}."
+  end
+
+  def announce_final_station
+    puts "Конечная станция!"
+  end
+
+  def gather_speed(speed = 70)
+    @current_speed = speed
+  end
+
+  def stop
+    @current_speed = 0
   end
 end
