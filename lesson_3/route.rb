@@ -4,39 +4,52 @@
 # Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-  attr_reader :way_stations, :starting_station, :ending_station
-  attr_accessor :full_route
+  attr_reader :starting_station, :ending_station
 
   def initialize(starting_station, ending_station)
     @starting_station = starting_station
     @ending_station = ending_station
     @way_stations = []
-    @full_route = [starting_station, ending_station]
   end
 
   def add_station(station)
-    way_stations << station
-    @full_route = [starting_station, way_stations, ending_station].flatten
+    @way_stations << station
   end
 
   def delete_station(station)
-    way_stations.delete station
-    @full_route = [starting_station, way_stations, ending_station].flatten
+    @way_stations.delete(station)
   end
 
-  def get_next_station(station, direction = 'straight')
+  def get_next_station_straight(station)
     current_index = full_route.index(station)
-    if direction == 'straight'
-      full_route[current_index + 1]
-    else
-      full_route[current_index - 1]
-    end
+    full_route[current_index + 1]
+  end
+
+  def get_next_station_reverse(station)
+    current_index = full_route.index(station)
+    full_route[current_index - 1]
+  end
+
+  def get_previous_station_straight(station)
+    current_index = full_route.index(station)
+    full_route[current_index - 1]
+  end
+
+  def get_previous_station_reverse(station)
+    current_index = full_route.index(station)
+    full_route[current_index + 1]
   end
 
   def print_all_stations
-    puts "Начальная: #{starting_station.name}"
+    puts "Начальная: #{@starting_station.name}"
     puts 'Промежуточные станции:'
-    way_stations.each { |station| puts station.name }
-    puts "Конечная: #{ending_station.name}"
+    @way_stations.each { |station| puts station.name }
+    puts "Конечная: #{@ending_station.name}"
+  end
+
+  private
+
+  def full_route
+    [@starting_station, @way_stations, @ending_station].flatten
   end
 end

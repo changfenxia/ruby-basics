@@ -16,19 +16,21 @@ mskbj.print_all_stations
 
 my_new_shiny_train = Train.new(112)
 my_new_shiny_train.assign_route(mskbj)
-my_new_shiny_train.move
-my_new_shiny_train.move
-my_new_shiny_train.move
+my_new_shiny_train.move_one_station_straight
+my_new_shiny_train.move_one_station_straight
+my_new_shiny_train.move_one_station_straight
 puts vlad.get_trains_by_type('passenger')
-my_new_shiny_train.change_direction
-my_new_shiny_train.move
-my_new_shiny_train.move
-my_new_shiny_train.move
-my_new_shiny_train.change_direction
-my_new_shiny_train.move
-my_new_shiny_train.move
-my_new_shiny_train.move
-my_new_shiny_train.move
+my_new_shiny_train.move_one_station_reverse
+my_new_shiny_train.move_one_station_reverse
+my_new_shiny_train.move_one_station_reverse
+my_new_shiny_train.move_one_station_straight
+my_new_shiny_train.move_one_station_straight
+my_new_shiny_train.move_one_station_straight
+p my_new_shiny_train.next_station
+my_new_shiny_train.move_one_station_straight
+
+my_new_shiny_train.move_one_station_straight
+
 
 
 

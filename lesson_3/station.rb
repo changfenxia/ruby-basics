@@ -21,6 +21,6 @@ class Station
   end
 
   def send_train(train)
-    trains.delete train
+    trains.delete(train)
   end
 end
