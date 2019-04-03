@@ -20,32 +20,18 @@ class Route
     @way_stations.delete(station)
   end
 
-  def get_next_station_straight(station)
+  def next_station(station)
     return false if station == @ending_station
 
     current_index = full_route.index(station)
     full_route[current_index + 1]
   end
 
-  def get_next_station_reverse(station)
+  def previous_station(station)
     return false if station == @starting_station
 
     current_index = full_route.index(station)
     full_route[current_index - 1]
-  end
-
-  def get_previous_station_straight(station)
-    return false if station == @starting_station
-
-    current_index = full_route.index(station)
-    full_route[current_index - 1]
-  end
-
-  def get_previous_station_reverse(station)
-    return false if station == @ending_station
-
-    current_index = full_route.index(station)
-    full_route[current_index + 1]
   end
 
   def print_all_stations
